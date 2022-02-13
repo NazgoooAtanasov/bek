@@ -1,9 +1,11 @@
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "../include/util.h"
 #include "../include/lexer.h"
 #include "../include/compiler.h"
+#include "../include/interpreter.h"
 
 int main(int argc, char* argv[]) {
     if(argc >= 3) {
@@ -22,8 +24,15 @@ int main(int argc, char* argv[]) {
             int status = compiler_compile(&comp, lex.tokens, lex.inst_count);
 
             lexer_destroy(&lex);
-
             free(file_buff);
+        }
+        else if (strcmp(command, "exec") == 0) {
+            Interpreter interpreter;
+
+            uint8_t* binary_file_buffer = read_file_binary(filepath);
+
+            interpreter_create(&interpreter, binary_file_buffer);
+            int status = interpreter_run(&interpreter);
         }
 
         return 0;

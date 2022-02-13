@@ -8,6 +8,8 @@
 
 char* read_file(const char* fp); 
 
+uint8_t* read_file_binary(const char* fp);
+
 void write_binary(ByteBuff* bf, const char* output);
 
 #endif // BEK_UTIL_
