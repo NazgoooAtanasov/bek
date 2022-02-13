@@ -15,3 +15,9 @@ char* read_file(const char* fp) {
 
     return file_buff;
 }
+
+void write_binary(ByteBuff* bf, const char* output) {
+    FILE* f = fopen(output, "wb");
+    fwrite(bf->buffer, 1, bf->ptr, f);
+    fclose(f);
+}

@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "bytebuff.h"
+
 char* read_file(const char* fp); 
+
+void write_binary(ByteBuff* bf, const char* output);
 
 #endif // BEK_UTIL_

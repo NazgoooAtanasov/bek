@@ -3,6 +3,7 @@
 
 #include "../include/util.h"
 #include "../include/lexer.h"
+#include "../include/compiler.h"
 
 int main(int argc, char* argv[]) {
     if(argc >= 3) {
@@ -11,18 +12,14 @@ int main(int argc, char* argv[]) {
 
         if (strcmp(command, "comp") == 0) {
             Lexer lex;
+            Compiler comp;
             char* file_buff = read_file(filepath);
 
             lexer_create(&lex);
             lexer_parse(&lex, file_buff);
 
-            for (int i = 0; i < lex.inst_count; i++) {
-                printf("%d, %d, %d\n", 
-                    lex.tokens[i].type,
-                    lex.tokens[i].data,
-                    lex.tokens[i].line
-                );
-            }
+            compiler_create(&comp, argc >=4 ? argv[3] : "out.bin");
+            int status = compiler_compile(&comp, lex.tokens, lex.inst_count);
 
             lexer_destroy(&lex);
 
