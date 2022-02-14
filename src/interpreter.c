@@ -1,4 +1,5 @@
 #include "../include/interpreter.h"
+#include <stdint.h>
 
 void interpreter_create(Interpreter* intr, uint8_t* bin_buff) {
     intr->bin_buff = bin_buff;
@@ -15,26 +16,25 @@ int interpreter_run(Interpreter* intr) {
     while(intr->running) {
         switch(intr->bin_buff[intr->bin_ptr++]) {
             case PUSH_OP: {
-                printf("Detected PUSH_OP\n");
+                uint32_t val = read32(intr->bin_buff, intr->bin_ptr);
+                push32(intr, val);
+                intr->bin_ptr += 4;
                 break;
             }
 
             case PLUS_OP: {
-                printf("Detected ADD_OP\n");
+                uint32_t a = pop32(intr);
+                uint32_t b = pop32(intr);
+                push32(intr, a + b);
                 break;
             }
 
             case RET_OP: {
-                printf("Detected RET_OP\n");
-
+                intr->exit = pop32(intr);
                 intr->running = 0;
                 break;
             }
         }
-    }
-
-    for (int i = 0; i < intr->stack_ptr; i++) {
-        printf("%d\n", intr->stack[i]);
     }
 
     intr->status = I_FINISHED;

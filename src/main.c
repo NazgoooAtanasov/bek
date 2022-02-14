@@ -33,6 +33,8 @@ int main(int argc, char* argv[]) {
 
             interpreter_create(&interpreter, binary_file_buffer);
             int status = interpreter_run(&interpreter);
+
+            return interpreter.exit;
         }
 
         return 0;
