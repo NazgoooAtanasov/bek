@@ -30,7 +30,8 @@ def test(filepath, expected_result):
         if expected_result == run_proccess:
             print("{} OK".format(filepath))
         else:
-            print("{} ERR: Unexpected result".format(filepath))
+            print("{} ERR: Unexpected result '{}'".format(filepath,
+                                                          run_proccess))
     else:
         print("{}, ERR: Failed compiling".format(filepath))
 
@@ -38,3 +39,6 @@ def test(filepath, expected_result):
 test("test/sum.bek", 115)
 test("test/minus.bek", 40)
 test("test/plusminus.bek", 195)
+test("test/mult.bek", 16)
+test("test/dev.bek", 4)
+test("test/multdev.bek", 12)

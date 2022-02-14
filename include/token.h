@@ -14,6 +14,8 @@ enum TokenInst {
     PUSH,
     PLUS,
     MINUS,
+    MULT,
+    DEV,
     RET,
 
     TOKEN_INST_COUNT

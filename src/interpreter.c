@@ -36,10 +36,28 @@ int interpreter_run(Interpreter* intr) {
                 break;
             }
 
+            case MULT_OP: {
+                uint32_t a = pop32(intr);
+                uint32_t b = pop32(intr);
+                push32(intr, a * b);
+                break;
+            }
+
+            case DEV_OP: {
+                uint32_t a = pop32(intr);
+                uint32_t b = pop32(intr);
+                push32(intr, b / a);
+                break;
+            }
+
             case RET_OP: {
                 intr->exit = pop32(intr);
                 intr->running = 0;
                 break;
+            }
+
+            default: {
+                fprintf(stderr, "Inrecognized operation\n");
             }
         }
     }
