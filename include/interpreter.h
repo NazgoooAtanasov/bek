@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "bytebuff.h"
+#include "opcodes.h"
 
 #define STACK_CAP 1024
 

@@ -1,6 +1,9 @@
 #include "../include/lexer.h"
 
 void lexer_create(Lexer* lex) {
+    assert(TOKEN_TYPE_COUNT == 2);
+    assert(TOKEN_INST_COUNT == 4);
+
     lex->inst_count = 0;
     lex->size = 1024 * 8;
     lex->tokens = (Token*) malloc(sizeof(Token) * lex->size);

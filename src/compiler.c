@@ -1,7 +1,8 @@
 #include "../include/compiler.h"
-#include <stdio.h>
 
 void compiler_create(Compiler* comp, const char* output_file) {
+    assert(OP_CODES_COUNT == 4);
+
     comp->running = 0;
     comp->status = C_NOT_STARTED;
     comp->output_file = output_file;

@@ -5,14 +5,18 @@
 
 enum TokenType {
     NUM,
-    INST
+    INST,
+
+    TOKEN_TYPE_COUNT
 };
 
 enum TokenInst {
     PUSH,
     PLUS,
     MINUS,
-    RET
+    RET,
+
+    TOKEN_INST_COUNT
 };
 
 struct _Token {

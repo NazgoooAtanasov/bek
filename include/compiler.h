@@ -2,10 +2,12 @@
 #define BEK_COMPILER_
 
 #include <stdlib.h>
+#include <assert.h>
 
 #include "util.h"
 #include "token.h"
 #include "bytebuff.h"
+#include "opcodes.h"
 
 enum _CompStatus {
     C_NOT_STARTED,

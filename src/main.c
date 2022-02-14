@@ -6,6 +6,7 @@
 #include "../include/lexer.h"
 #include "../include/compiler.h"
 #include "../include/interpreter.h"
+#include "../include/opcodes.h"
 
 int main(int argc, char* argv[]) {
     if(argc >= 3) {
