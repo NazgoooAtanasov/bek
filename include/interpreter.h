@@ -22,6 +22,7 @@ struct _Interpreter {
 
     uint8_t stack[STACK_CAP];
     size_t stack_ptr;
+    size_t stack_sz;
 
     int running;
     int status;

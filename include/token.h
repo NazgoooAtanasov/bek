@@ -17,6 +17,7 @@ enum TokenInst {
     MULT,
     DEV,
     RET,
+    PRINT,
 
     TOKEN_INST_COUNT
 };

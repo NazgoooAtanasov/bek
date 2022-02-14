@@ -1,7 +1,7 @@
 #include "../include/compiler.h"
 
 void compiler_create(Compiler* comp, const char* output_file) {
-    assert(OP_CODES_COUNT == 6);
+    assert(OP_CODES_COUNT == 7);
 
     comp->running = 0;
     comp->status = C_NOT_STARTED;
@@ -42,6 +42,11 @@ int compiler_compile(Compiler* comp, Token* tokens, int tokens_count) {
 
                 case DEV: {
                     add_byte8(&bf, DEV_OP);
+                    break;
+                }
+
+                case PRINT: {
+                    add_byte8(&bf, PRINT_OP);
                     break;
                 }
                 

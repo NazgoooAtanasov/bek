@@ -1,5 +1,4 @@
 #include "../include/interpreter.h"
-#include <stdint.h>
 
 void interpreter_create(Interpreter* intr, uint8_t* bin_buff) {
     intr->bin_buff = bin_buff;
@@ -8,6 +7,7 @@ void interpreter_create(Interpreter* intr, uint8_t* bin_buff) {
     intr->status = I_NOT_STARTED;
     intr->exit = 69696969;
     intr->stack_ptr = 0;
+    intr->stack_sz = 0;
 }
 
 int interpreter_run(Interpreter* intr) {
@@ -19,39 +19,68 @@ int interpreter_run(Interpreter* intr) {
                 uint32_t val = read32(intr->bin_buff, intr->bin_ptr);
                 push32(intr, val);
                 intr->bin_ptr += 4;
+                intr->stack_sz++;
                 break;
             }
 
             case PLUS_OP: {
                 uint32_t a = pop32(intr);
+                intr->stack_sz--;
+
                 uint32_t b = pop32(intr);
+                intr->stack_sz--;
+
                 push32(intr, a + b);
+                intr->stack_sz++;
                 break;
             }
 
             case MINUS_OP: {
                 uint32_t a = pop32(intr);
+                intr->stack_sz--;
+
                 uint32_t b = pop32(intr);
+                intr->stack_sz--;
+
                 push32(intr, b - a);
+                intr->stack_sz++;
                 break;
             }
 
             case MULT_OP: {
                 uint32_t a = pop32(intr);
+                intr->stack_sz--;
+
                 uint32_t b = pop32(intr);
+                intr->stack_sz--;
+
                 push32(intr, a * b);
+                intr->stack_sz++;
                 break;
             }
 
             case DEV_OP: {
                 uint32_t a = pop32(intr);
+                intr->stack_sz--;
+
                 uint32_t b = pop32(intr);
+                intr->stack_sz--;
+
                 push32(intr, b / a);
+                intr->stack_sz++;
+                break;
+            }
+
+            case PRINT_OP: {
+                uint32_t a = pop32(intr);
+                intr->stack_sz--;
+
+                fprintf(stdout, "%d\n", a);
                 break;
             }
 
             case RET_OP: {
-                intr->exit = pop32(intr);
+                intr->exit = intr->stack_sz ? pop32(intr) : 0;
                 intr->running = 0;
                 break;
             }

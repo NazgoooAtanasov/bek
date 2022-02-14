@@ -1,7 +1,7 @@
 #ifndef BEK_OPCODES_
 #define BEK_OPCODES_
 
-#define OP_CODES_COUNT 6
+#define OP_CODES_COUNT 7
 
 enum _OpCodes {
     PUSH_OP = 0x01,
@@ -9,6 +9,7 @@ enum _OpCodes {
     MINUS_OP = 0x03,
     MULT_OP = 0x04,
     DEV_OP = 0x05,
+    PRINT_OP = 0x06,
     RET_OP = 0xFF
 };
 

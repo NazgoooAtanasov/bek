@@ -2,7 +2,7 @@
 
 void lexer_create(Lexer* lex) {
     assert(TOKEN_TYPE_COUNT == 2);
-    assert(TOKEN_INST_COUNT == 6);
+    assert(TOKEN_INST_COUNT == 7);
 
     lex->inst_count = 0;
     lex->size = 1024 * 8;
@@ -51,6 +51,10 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
                 }
                 else if (strcmp(word, "/") == 0) {
                     token_create(&token, INST, DEV, line);
+                    lexer_add_token(lex, &token);
+                }
+                else if (strcmp(word, "print") == 0) {
+                    token_create(&token, INST, PRINT, line);
                     lexer_add_token(lex, &token);
                 }
                 else if (strcmp(word, "ret") == 0) {
