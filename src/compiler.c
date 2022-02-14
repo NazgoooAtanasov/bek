@@ -28,6 +28,11 @@ int compiler_compile(Compiler* comp, Token* tokens, int tokens_count) {
                     add_byte8(&bf, PLUS_OP);
                     break;
                 }
+
+                case MINUS: {
+                    add_byte8(&bf, MINUS_OP);
+                    break;
+                }
                 
                 case RET: {
                     add_byte8(&bf, RET_OP);

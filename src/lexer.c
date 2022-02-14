@@ -38,6 +38,10 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
                     token_create(&token, INST, PLUS, line);
                     lexer_add_token(lex, &token);
                 }
+                else if (strcmp(word, "-") == 0) {
+                    token_create(&token, INST, MINUS, line);
+                    lexer_add_token(lex, &token);
+                }
                 else if (strcmp(word, "ret") == 0) {
                     token_create(&token, INST, RET, line);
                     lexer_add_token(lex, &token);

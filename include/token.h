@@ -11,6 +11,7 @@ enum TokenType {
 enum TokenInst {
     PUSH,
     PLUS,
+    MINUS,
     RET
 };
 
