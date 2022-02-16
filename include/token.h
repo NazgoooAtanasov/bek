@@ -6,6 +6,7 @@
 enum TokenType {
     NUM,
     INST,
+    STR,
 
     TOKEN_TYPE_COUNT
 };

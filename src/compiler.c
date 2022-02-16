@@ -19,6 +19,16 @@ int compiler_compile(Compiler* comp, Token* tokens, int tokens_count) {
             uint32_t data = *((uint32_t*) tokens[i].data);
             add_byte32(&bf, data);
         }
+
+        else if (tokens[i].type == STR) {
+            const char* str = (char*) tokens[i].data;
+            int len = strlen(str);
+
+            for (int i = 0; i < len; i++) {
+                add_byte8(&bf, str[i]);
+            }
+        }
+
         else {
             int instruction = *((int*) tokens[i].data);
             switch (instruction) {

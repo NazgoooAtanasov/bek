@@ -1,7 +1,7 @@
 #include "../include/lexer.h"
 
 void lexer_create(Lexer* lex) {
-    assert(TOKEN_TYPE_COUNT == 2);
+    assert(TOKEN_TYPE_COUNT == 3);
     assert(TOKEN_INST_COUNT == 7);
 
     lex->inst_count = 0;
@@ -30,6 +30,16 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
                 *parsed_number = lexer_parse_int(word);
 
                 token_create(&token, NUM, parsed_number, line);
+                lexer_add_token(lex, &token);
+            }
+
+            // add the logic to take all of the stuff between the ""
+            else if (word[0] == '~') {
+                uint8_t* string = (uint8_t*) malloc(sizeof(uint8_t) * 256);
+
+                lexer_parse_string(string, &word[2]);
+
+                token_create(&token, STR, string, line);
                 lexer_add_token(lex, &token);
             }
 
@@ -87,6 +97,19 @@ void lexer_add_token(Lexer* lex, Token* tk) {
 uint32_t lexer_parse_int(const char* buf) {
 	long num = atoi(&buf[1]);
 	return (num <= UINT32_MAX) ? num : 0;
+}
+
+void lexer_parse_string(uint8_t* buff, const char* str) {
+    uint8_t len = strlen(str);
+
+    for (int i = 0; i < len; i++) {
+        if (str[i] == '"') {
+            buff[i] = '\0';
+            break;
+        }
+
+        buff[i] = str[i];
+    }
 }
 
 void lexer_destroy(Lexer* lex) {

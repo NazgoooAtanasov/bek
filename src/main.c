@@ -21,7 +21,14 @@ int main(int argc, char* argv[]) {
             lexer_create(&lex);
             lexer_parse(&lex, file_buff);
 
-            compiler_create(&comp, argc >=4 ? argv[3] : "out.bin");
+            /* for (int i = 0; i < lex.inst_count; i++) { */
+            /*     if (lex.tokens[i].type == STR) */
+            /*         printf("%s\n", (char*) lex.tokens[i].data); */
+            /*     else */
+            /*         printf("%d\n", *((int*) lex.tokens[i].data)); */
+            /* } */
+
+            compiler_create(&comp, argc >= 4 ? argv[3] : "out.bin");
             int status = compiler_compile(&comp, lex.tokens, lex.inst_count);
 
             lexer_destroy(&lex);

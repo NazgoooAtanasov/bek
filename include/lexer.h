@@ -22,6 +22,8 @@ void lexer_parse(Lexer* lex, const char* file_buff);
 
 uint32_t lexer_parse_int(const char* buf);
 
+void lexer_parse_string(uint8_t* buff, const char* str);
+
 void lexer_add_token(Lexer* lex, Token* tk);
 
 void lexer_destroy(Lexer* lex);
