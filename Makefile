@@ -1,10 +1,12 @@
 SRC = ${wildcard src/*.c}
 HDR = ${wildcard include/*.h}
 OBJ = ${SRC:.c=.o}
-
+APPNAME = bek
 CFLAGS = -c
 
-bek: ${OBJ}
+all: ${APPNAME}
+
+${APPNAME}: ${OBJ}
 	cc -g $^ -o $@
 
 %.o: %.c ${HDR}

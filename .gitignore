@@ -1,3 +1,4 @@
 *.o
 bek
 out.bin
+.idea/
