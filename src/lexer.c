@@ -26,44 +26,43 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
         // handling empty strings.
         if (strcmp(word, "") != 0) {
             if (word[0] == '#') {
-                int parsed_number = lexer_parse_int(word);
+                uint32_t* parsed_number = (uint32_t*) malloc(sizeof(uint32_t));
+                *parsed_number = lexer_parse_int(word);
 
                 token_create(&token, NUM, parsed_number, line);
                 lexer_add_token(lex, &token);
             }
 
             else {
+                int* inst = (int*) malloc(sizeof(int));
+
                 if (strcmp(word, "push") == 0) {
-                    token_create(&token, INST, PUSH, line);
-                    lexer_add_token(lex, &token);
+                    *inst = PUSH;
                 }
                 else if (strcmp(word, "+") == 0) {
-                    token_create(&token, INST, PLUS, line);
-                    lexer_add_token(lex, &token);
+                    *inst = PLUS;
                 }
                 else if (strcmp(word, "-") == 0) {
-                    token_create(&token, INST, MINUS, line);
-                    lexer_add_token(lex, &token);
+                    *inst = MINUS;
                 }
                 else if (strcmp(word, "*") == 0) {
-                    token_create(&token, INST, MULT, line);
-                    lexer_add_token(lex, &token);
+                    *inst = MULT;
                 }
                 else if (strcmp(word, "/") == 0) {
-                    token_create(&token, INST, DEV, line);
-                    lexer_add_token(lex, &token);
+                    *inst = DEV;
                 }
                 else if (strcmp(word, "print") == 0) {
-                    token_create(&token, INST, PRINT, line);
-                    lexer_add_token(lex, &token);
+                    *inst = PRINT;
                 }
                 else if (strcmp(word, "ret") == 0) {
-                    token_create(&token, INST, RET, line);
-                    lexer_add_token(lex, &token);
+                    *inst = RET;
                 }
                 else {
                     fprintf(stderr, "No such instruction, reading '%s'\n", word);
                 }
+
+                token_create(&token, INST, inst, line);
+                lexer_add_token(lex, &token);
             }
         }
 
@@ -91,5 +90,9 @@ uint32_t lexer_parse_int(const char* buf) {
 }
 
 void lexer_destroy(Lexer* lex) {
+    for (int i = 0; i < lex->inst_count; i++) {
+        free(lex->tokens[i].data);
+    }
+
     free(lex->tokens);
 }

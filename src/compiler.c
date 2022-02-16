@@ -16,10 +16,12 @@ int compiler_compile(Compiler* comp, Token* tokens, int tokens_count) {
 
     for (int i = 0; i < tokens_count; i++) {
         if (tokens[i].type == NUM) {
-            add_byte32(&bf, tokens[i].data);
+            uint32_t data = *((uint32_t*) tokens[i].data);
+            add_byte32(&bf, data);
         }
         else {
-            switch (tokens[i].data) {
+            int instruction = *((int*) tokens[i].data);
+            switch (instruction) {
                 case PUSH: {
                     add_byte8(&bf, PUSH_OP);
                     break;

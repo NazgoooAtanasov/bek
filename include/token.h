@@ -24,12 +24,12 @@ enum TokenInst {
 
 struct _Token {
     int type;
-    int data;
+    void* data;
     int line;
 };
 typedef struct _Token Token;
 
-void token_create(Token* tk, int type, int data, int line);
+void token_create(Token* tk, int type, void* data, int line);
 /* void token_destroy(Token* tk); */
 
 #endif // BEK_TOKEN_
