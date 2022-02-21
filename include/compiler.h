@@ -9,6 +9,7 @@
 #include "token.h"
 #include "bytebuff.h"
 #include "opcodes.h"
+#include "types.h"
 
 enum _CompStatus {
     C_NOT_STARTED,

@@ -7,6 +7,7 @@
 
 #include "bytebuff.h"
 #include "opcodes.h"
+#include "types.h"
 
 #define STACK_CAP 1024
 
@@ -24,6 +25,10 @@ struct _Interpreter {
     size_t stack_ptr;
     size_t stack_sz;
 
+    uint8_t type_stack[STACK_CAP];
+    size_t type_stack_ptr;
+    size_t type_stack_sz;
+
     int running;
     int status;
 
@@ -36,13 +41,14 @@ void interpreter_create(Interpreter* intr, uint8_t* bin_buff);
 int interpreter_run(Interpreter* intr);
 /* void interpreter_destroy(Interpreter* intr); */
 
-void push8(Interpreter* intr, uint8_t data);
-void push16(Interpreter* intr, uint16_t data);
-void push32(Interpreter* intr, uint32_t data);
+void push8(uint8_t* stack, size_t* stack_ptr, uint8_t data);
+void push16(uint8_t* stack, size_t* stack_ptr, uint16_t data);
+void push32(uint8_t* stack, size_t* stack_ptr, uint32_t data);
 
 uint8_t pop8(Interpreter* intr);
 uint16_t pop16(Interpreter* intr);
 uint32_t pop32(Interpreter* intr);
 
 uint32_t read32(uint8_t* buffer, size_t idx);
+uint8_t read8(uint8_t* buffer, size_t idx);
 #endif // BEK_INTERPRETER_

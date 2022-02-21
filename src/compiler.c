@@ -17,12 +17,15 @@ int compiler_compile(Compiler* comp, Token* tokens, int tokens_count) {
     for (int i = 0; i < tokens_count; i++) {
         if (tokens[i].type == NUM) {
             uint32_t data = *((uint32_t*) tokens[i].data);
+            add_byte8(&bf, TYPE_NUMBER);
             add_byte32(&bf, data);
         }
 
         else if (tokens[i].type == STR) {
             const char* str = (char*) tokens[i].data;
-            int len = strlen(str);
+            int len = strlen(str) + 1; // adding one more iteration, so we can catch the null terminator
+
+            add_byte8(&bf, TYPE_STRING);
 
             for (int i = 0; i < len; i++) {
                 add_byte8(&bf, str[i]);

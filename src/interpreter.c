@@ -8,6 +8,8 @@ void interpreter_create(Interpreter* intr, uint8_t* bin_buff) {
     intr->exit = 69696969;
     intr->stack_ptr = 0;
     intr->stack_sz = 0;
+    intr->type_stack_ptr = 0;
+    intr->type_stack_sz = 0;
 }
 
 int interpreter_run(Interpreter* intr) {
@@ -16,10 +18,36 @@ int interpreter_run(Interpreter* intr) {
     while(intr->running) {
         switch(intr->bin_buff[intr->bin_ptr++]) {
             case PUSH_OP: {
-                uint32_t val = read32(intr->bin_buff, intr->bin_ptr);
-                push32(intr, val);
-                intr->bin_ptr += 4;
-                intr->stack_sz++;
+                uint8_t type = read8(intr->bin_buff, intr->bin_ptr++);
+
+                if (type == TYPE_NUMBER) {
+                    uint32_t val = read32(intr->bin_buff, intr->bin_ptr);
+
+                    push32(intr->stack, &intr->stack_ptr, val);
+
+                    intr->bin_ptr += 4;
+                    intr->stack_sz++;
+
+                    push8(intr->type_stack, &intr->type_stack_ptr, TYPE_NUMBER);
+                }
+
+                else if (type == TYPE_STRING) {
+                    char str[256];
+                    size_t str_i = 0;
+                    char s = read8(intr->bin_buff, intr->bin_ptr++);
+
+                    while (1) {
+                        if (s == '\0') break;
+
+                        str[str_i++] = s;
+
+                        s = read8(intr->bin_buff, intr->bin_ptr++);
+                    }
+
+                    push8(intr->type_stack, &intr->type_stack_ptr, TYPE_STRING);
+                    intr->type_stack_sz++;
+                }
+
                 break;
             }
 
@@ -30,7 +58,7 @@ int interpreter_run(Interpreter* intr) {
                 uint32_t b = pop32(intr);
                 intr->stack_sz--;
 
-                push32(intr, a + b);
+                push32(intr->stack, &intr->stack_ptr, a + b);
                 intr->stack_sz++;
                 break;
             }
@@ -42,7 +70,7 @@ int interpreter_run(Interpreter* intr) {
                 uint32_t b = pop32(intr);
                 intr->stack_sz--;
 
-                push32(intr, b - a);
+                push32(intr->stack, &intr->stack_ptr, b - a);
                 intr->stack_sz++;
                 break;
             }
@@ -54,7 +82,7 @@ int interpreter_run(Interpreter* intr) {
                 uint32_t b = pop32(intr);
                 intr->stack_sz--;
 
-                push32(intr, a * b);
+                push32(intr->stack, &intr->stack_ptr, a * b);
                 intr->stack_sz++;
                 break;
             }
@@ -66,7 +94,7 @@ int interpreter_run(Interpreter* intr) {
                 uint32_t b = pop32(intr);
                 intr->stack_sz--;
 
-                push32(intr, b / a);
+                push32(intr->stack, &intr->stack_ptr, b / a);
                 intr->stack_sz++;
                 break;
             }
@@ -101,18 +129,22 @@ uint32_t read32(uint8_t* buffer, size_t idx) {
         (buffer[idx + 2] << 8) | (buffer[idx + 3]);
 }
 
-void push8(Interpreter* intr, uint8_t data) {
-    intr->stack[++intr->stack_ptr] = data;
+uint8_t read8(uint8_t* buffer, size_t idx) {
+    return buffer[idx];
 }
 
-void push16(Interpreter* intr, uint16_t data) {
-    push8(intr, (data & 0xFF00) >> 8);
-    push8(intr, (data & 0x00FF));
+void push8(uint8_t* stack, size_t* stack_ptr, uint8_t data) {
+    stack[++(*stack_ptr)] = data;
 }
 
-void push32(Interpreter* intr, uint32_t data) {
-    push16(intr, (data & 0xFFFF0000) >> 16);
-    push16(intr, (data & 0x0000FFFF));
+void push16(uint8_t* stack, size_t* stack_ptr, uint16_t data) {
+    push8(stack, stack_ptr, (data & 0xFF00) >> 8);
+    push8(stack, stack_ptr, (data & 0x00FF));
+}
+
+void push32(uint8_t* stack, size_t* stack_ptr, uint32_t data) {
+    push16(stack, stack_ptr, (data & 0xFFFF0000) >> 16);
+    push16(stack, stack_ptr, (data & 0x0000FFFF));
 }
 
 uint8_t pop8(Interpreter* intr) {

@@ -36,6 +36,7 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
             // add the logic to take all of the stuff between the ""
             else if (word[0] == '~') {
                 uint8_t* string = (uint8_t*) malloc(sizeof(uint8_t) * 256);
+                memset(string, '\0', 256);
 
                 lexer_parse_string(string, &word[2]);
 
