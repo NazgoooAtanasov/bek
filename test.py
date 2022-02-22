@@ -74,3 +74,4 @@ test("test/dev.bek", 4)
 test("test/multdev.bek", 12)
 
 test_stdout("test/print.bek", "444")
+test_stdout("test/string.bek", "Hello World!")

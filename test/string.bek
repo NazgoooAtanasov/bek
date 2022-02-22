@@ -1,3 +1,2 @@
-push ~"word" 
-print
+push ~"Hello World!" print
 ret

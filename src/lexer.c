@@ -16,8 +16,28 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
     int line = 1;
 
     while(1) {
-        while(file_buff[i] != ' ' && file_buff[i] != '\n' && file_buff[i] != '\0') {
+        int condition = file_buff[i] != ' ' && file_buff[i] != '\n' && file_buff[i] != '\0' ? 1 : 0;
+        int quote = 0;
+        while(condition) {
+            int inner_condition;
             word[word_i++] = file_buff[i++];
+
+            // if " start -> stop space parse
+            // if " end -> start space parse
+            
+            if (word[word_i - 1] == '"' && quote == 0) {
+                quote = 1;
+                inner_condition = file_buff[i] != '\n' && file_buff[i] != '\0' ? 1 : 0;
+            } else if (word[word_i - 1] == '"' && quote == 1) {
+                quote = 0;
+                inner_condition = file_buff[i] != ' ' && file_buff[i] != '\n' && file_buff[i] != '\0' ? 1 : 0;
+            } else if (quote == 1) {
+                inner_condition = file_buff[i] != '\n' && file_buff[i] != '\0' ? 1 : 0;
+            } else {
+                inner_condition = file_buff[i] != ' ' && file_buff[i] != '\n' && file_buff[i] != '\0' ? 1 : 0;
+            }
+
+            condition = inner_condition;
         }
         word[word_i] = '\0';
 
