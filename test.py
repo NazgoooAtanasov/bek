@@ -61,7 +61,7 @@ def test_stdout(filepath, expected_result):
         if stdout == expected_result:
             print("{}, OK".format(filepath))
         else:
-            print("{}, ERR: Unexpected result '{}'".format(filepath, stdout))
+            print("{}, ERR: Unexpected result \'{}\'".format(filepath, stdout))
     else:
         print("{}, ERR: Failed compiling".format(filepath))
 
@@ -75,3 +75,4 @@ test("test/multdev.bek", 12)
 
 test_stdout("test/print.bek", "444")
 test_stdout("test/string.bek", "Hello World!")
+test_stdout("test/conditional.bek", "Hello if world!")

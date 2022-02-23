@@ -1,0 +1,7 @@
+push #30
+
+! #30 == if
+    push ~"Hello if world!" print
+end
+
+ret

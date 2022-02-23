@@ -41,7 +41,7 @@ typedef struct _Interpreter Interpreter;
 
 void interpreter_create(Interpreter* intr, uint8_t* bin_buff);
 int interpreter_run(Interpreter* intr);
-/* void interpreter_destroy(Interpreter* intr); */
+void interpreter_destroy(Interpreter* intr);
 
 void push8(uint8_t* stack, size_t* stack_ptr, uint8_t data);
 void push16(uint8_t* stack, size_t* stack_ptr, uint16_t data);

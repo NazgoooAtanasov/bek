@@ -2,7 +2,7 @@
 
 void lexer_create(Lexer* lex) {
     assert(TOKEN_TYPE_COUNT == 3);
-    assert(TOKEN_INST_COUNT == 7);
+    assert(TOKEN_INST_COUNT == 15);
 
     lex->inst_count = 0;
     lex->size = 1024 * 8;
@@ -87,6 +87,30 @@ void lexer_parse(Lexer* lex, const char* file_buff) {
                 }
                 else if (strcmp(word, "ret") == 0) {
                     *inst = RET;
+                }
+                else if (strcmp(word, "!") == 0) {
+                    *inst = CONDITION;
+                }
+                else if (strcmp(word, "if") == 0) {
+                    *inst = CONDITION_START;
+                }
+                else if (strcmp(word, "end") == 0) {
+                    *inst = END_BLOCK;
+                }
+                else if (strcmp(word, "==") == 0) {
+                    *inst = CONDITION_EQ;
+                }
+                else if (strcmp(word, ">=") == 0) {
+                    *inst = CONDITION_BIGGER_EQ;
+                }
+                else if (strcmp(word, "<=") == 0) {
+                    *inst = CONDITION_LESS_EQ;
+                }
+                else if (strcmp(word, ">") == 0) {
+                    *inst = CONDITION_BIGGER;
+                }
+                else if (strcmp(word, "<") == 0) {
+                    *inst = CONDITION_LESS;
                 }
                 else {
                     fprintf(stderr, "No such instruction, reading '%s'\n", word);
